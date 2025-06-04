@@ -1,6 +1,6 @@
 CCPP = g++
 
-SSE_FLAG = -march=native -msse2 -DWITH_SSE
+SSE_FLAG = -march=native -DWITH_SSE
 
 CFLAGS = -w -O3 $(SSE_FLAG)
 
