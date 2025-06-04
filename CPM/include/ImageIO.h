@@ -3,8 +3,9 @@
 
 #include "Util.h"
 #include "project.h"
-#include "malloc.h"
-#include "opencv2/opencv.hpp"
+//#include "malloc.h"  // <- quitar este include obsoleto
+#include <cstdlib>    // <- usar esta cabecera para malloc/free
+#include <opencv2/opencv.hpp>
 #include <typeinfo>
 
 #ifdef WITH_SSE
@@ -17,10 +18,13 @@ inline void* xmalloc(T size){
 #ifdef WIN32
 	return _aligned_malloc(size, 32);
 #else
-	return memalign(32, size);
+	// memalign está obsoleto en POSIX, mejor usar posix_memalign
+	void* ptr = nullptr;
+	if (posix_memalign(&ptr, 32, size) != 0) return nullptr;
+	return ptr;
 #endif
 #else
-	return malloc(size);
+	return std::malloc(size);
 #endif
 }
 
@@ -29,21 +33,21 @@ inline void xfree(T* ptr){
 #if defined(WITH_SSE) && defined(WIN32)
 	_aligned_free(ptr);
 #else
-	free(ptr);
+	std::free(ptr);
 #endif
 }
 
 #ifdef WITH_SSE
-
-// for windows and linux
 typedef union _m128{
 	__m128 m;
 	__m128i mi;
 	float m128_f32[4];
 	unsigned short m128i_u16[8];
 }hu_m128;
-
 #endif
+
+// ... resto del código sin cambios ...
+
 
 class ImageIO
 {
