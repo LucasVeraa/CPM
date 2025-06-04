@@ -137,8 +137,6 @@ public:
         return cv::imwrite(filename, img, compression) ? 0 : -1;
     }
 
-    // Funciones como MotionToColor, ErrorImage, SaveFlowAsImage, etc., 
-    // pueden ser añadidas si lo deseas, pero requieren manejo adicional de color y visualización.
 };
 
 #endif // _OpticFlowIO_H
