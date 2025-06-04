@@ -2,21 +2,21 @@ CCPP = g++
 
 SSE_FLAG = -march=native -DWITH_SSE
 
-# Agregamos -Iinclude para que encuentre los headers
-CFLAGS = -w -O3 $(SSE_FLAG) -Iinclude
+CFLAGS = -std=c++17 -w -O3 $(SSE_FLAG) -Iinclude
+CFLAGS += $(shell pkg-config --cflags opencv4)
 
-LDFLAGS = $(shell pkg-config --cflags --libs opencv4)
+LDFLAGS = $(shell pkg-config --libs opencv4)
 
 SOURCES_CPP := $(shell find . -name '*.cpp')
 OBJ := $(SOURCES_CPP:%.cpp=%.o)
-HEADERS := $(shell find . -name '*.h')
+HEADERS := $(shell find . -name '*.h' -o -name '*.hpp')
 
 all: CPM
 
-.cpp.o: %.cpp %.h
-	$(CCPP) -c -o $@ $(CFLAGS) $<
+.cpp.o:
+	$(CCPP) -c $(CFLAGS) -o $@ $<
 
-CPM: $(HEADERS) $(OBJ)
+CPM: $(OBJ)
 	$(CCPP) -o $@ $(OBJ) $(LDFLAGS)
 
 clean:
