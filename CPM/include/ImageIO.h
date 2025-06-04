@@ -46,7 +46,7 @@ typedef union _m128{
 }hu_m128;
 #endif
 
-// ... resto del código sin cambios ...
+
 
 
 class ImageIO
