@@ -2,7 +2,8 @@ CCPP = g++
 
 SSE_FLAG = -march=native -DWITH_SSE
 
-CFLAGS = -w -O3 $(SSE_FLAG)
+# Agregamos -Iinclude para que encuentre los headers
+CFLAGS = -w -O3 $(SSE_FLAG) -Iinclude
 
 LDFLAGS = $(shell pkg-config --cflags --libs opencv4)
 
